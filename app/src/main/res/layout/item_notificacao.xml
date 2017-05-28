@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" android:padding="10dp">
+
+    <ImageView
+        android:id="@+id/icone_notificacao"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/notification"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/titulo_notificacao"
+        android:layout_toRightOf="@id/icone_notificacao"
+        android:text="Teste" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/nome_app_notificacao"
+        android:layout_toRightOf="@id/icone_notificacao"
+        android:layout_below="@id/titulo_notificacao"
+        android:text="Whatsapp"
+        android:textStyle="italic"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/horario_notificacao"
+        android:layout_toRightOf="@id/icone_notificacao"
+        android:layout_below="@id/nome_app_notificacao"
+        android:text="22:30 - 22/05/2017"/>
+
+</RelativeLayout>
