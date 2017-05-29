@@ -44,8 +44,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter {
 
             viewHolder.titulo.setText(notification.getTitle());
             viewHolder.appName.setText(notification.getAppName());
-            viewHolder.icone.setImageBitmap(notification.getAppIcon());
-            viewHolder.horario.setText(new Date().toString());
+            viewHolder.icone.setImageDrawable(notification.getAppIcon());
+            viewHolder.horario.setText(notification.getData());
         } catch (Exception ex) {
 
         }
@@ -59,5 +59,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter {
     public void add(CNotification notification) {
         this.notificationList.add(notification);
         notifyDataSetChanged();
+    }
+
+    public void clear() {
+        this.notificationList.clear();
     }
 }

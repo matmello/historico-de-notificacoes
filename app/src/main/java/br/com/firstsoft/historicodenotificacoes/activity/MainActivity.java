@@ -30,9 +30,6 @@ import br.com.firstsoft.historicodenotificacoes.model.CNotification;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView appName;
-    private TextView appTitle;
-    private ImageView appIcon;
     private NotificationReceiver nReceiver;
     private List<CNotification> notificationList;
     private RecyclerViewAdapter adapter;
@@ -56,6 +53,11 @@ public class MainActivity extends AppCompatActivity {
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
+
+        Intent i = new Intent("br.com.firstsoft.historicodenotificacoes.NOTIFICATION_LISTENER_SERVICE_EXAMPLE");
+        i.putExtra("command", "list");
+        sendBroadcast(i);
+        adapter.clear();
     }
 
     private void checkPermission() {
@@ -81,25 +83,16 @@ public class MainActivity extends AppCompatActivity {
         unregisterReceiver(nReceiver);
     }
 
-    public void buttonClicked(View v) {
+/*    public void buttonClicked(View v) {
 
         if (v.getId() == R.id.btnListNotify) {
-//            Intent i = new Intent("br.com.firstsoft.historicodenotificacoes.NOTIFICATION_LISTENER_SERVICE_EXAMPLE");
-//            i.putExtra("command", "list");
-//            sendBroadcast(i);
-            NotificationManager nManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-            NotificationCompat.Builder ncomp = new NotificationCompat.Builder(this);
-            ncomp.setContentTitle("My Notification");
-            ncomp.setContentText("Notification Listener Service Example");
-            ncomp.setTicker("Notification Listener Service Example");
-            ncomp.setSmallIcon(R.drawable.notification);
-            ncomp.setAutoCancel(true);
-            nManager.notify((int) System.currentTimeMillis(), ncomp.build());
-
+            Intent i = new Intent("br.com.firstsoft.historicodenotificacoes.NOTIFICATION_LISTENER_SERVICE_EXAMPLE");
+            i.putExtra("command", "list");
+            sendBroadcast(i);
+            adapter.clear();
         }
 
-    }
-
+    }*/
 
     class NotificationReceiver extends BroadcastReceiver {
 
@@ -121,14 +114,10 @@ public class MainActivity extends AppCompatActivity {
 
             Bundle bundle = intent.getExtras();
             CNotification temp = (CNotification) bundle.getSerializable("NOTIFICATION");
-            adapter.add(temp);
-            Toast.makeText(MainActivity.this, "ADICIONANDO NOTIFICAÇÃO", Toast.LENGTH_LONG).show();
 
             if (temp != null) {
-                String message = temp.getBigMessage() == null ? "" : "\"" + temp.getBigMessage() + "\"";
-                appName.setText(temp.getAppName() + " - " +temp.getTitle());
-                appTitle.setText(message);
-                appIcon.setImageDrawable(getApplicationIcon(temp.getPackageName()));
+                temp.setAppIcon(getApplicationIcon(temp.getPackageName()));
+                adapter.add(temp);
             }
         }
     }

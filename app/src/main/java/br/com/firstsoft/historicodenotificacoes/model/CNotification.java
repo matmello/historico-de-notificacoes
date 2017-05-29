@@ -1,26 +1,36 @@
 package br.com.firstsoft.historicodenotificacoes.model;
 
-import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by Danilo on 13/05/2017.
  */
 
-public class CNotification implements Serializable{
+public class CNotification implements Serializable, Comparable<CNotification> {
 
     private String appName;
     private String title;
     private String bigMessage;
-    private Bitmap appIcon;
+    private Drawable appIcon;
     private String packageName;
+    private String data;
 
-    public CNotification(String appName, String title, String bigMessage, String packageName) {
+    public CNotification() {
+
+    }
+
+    public CNotification(String appName, String title, String bigMessage, String packageName, String data) {
         this.appName = appName;
         this.title = title;
         this.bigMessage = bigMessage;
         this.packageName = packageName;
+        this.data = data;
     }
 
     public String getAppName() {
@@ -47,11 +57,11 @@ public class CNotification implements Serializable{
         this.bigMessage = bigMessage;
     }
 
-    public Bitmap getAppIcon() {
+    public Drawable getAppIcon() {
         return appIcon;
     }
 
-    public void setAppIcon(Bitmap appIcon) {
+    public void setAppIcon(Drawable appIcon) {
         this.appIcon = appIcon;
     }
 
@@ -61,5 +71,35 @@ public class CNotification implements Serializable{
 
     public void setPackageName(String packageName) {
         this.packageName = packageName;
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
+    }
+
+    @Override
+    public int compareTo(@NonNull CNotification o) {
+        SimpleDateFormat df = new SimpleDateFormat("HH:mm - dd/MM/yyyy");
+        try {
+            Date data1 = df.parse(this.data);
+            Date data2 = df.parse(o.getData());
+
+            if (data1.compareTo(data2) > 0) {
+                return 1;
+            } else if (data1.compareTo(data2) < 0) {
+                return -1;
+            } else {
+                return 0;
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return 0;
     }
 }

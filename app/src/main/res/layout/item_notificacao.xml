@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" android:padding="10dp">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" android:padding="10dp">
 
     <ImageView
         android:id="@+id/icone_notificacao"
@@ -16,7 +16,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/titulo_notificacao"
         android:layout_toRightOf="@id/icone_notificacao"
-        android:text="Teste" />
+        android:text="Teste"
+        android:layout_marginLeft="5dp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -25,7 +26,8 @@
         android:layout_toRightOf="@id/icone_notificacao"
         android:layout_below="@id/titulo_notificacao"
         android:text="Whatsapp"
-        android:textStyle="italic"/>
+        android:textStyle="italic"
+        android:layout_marginLeft="5dp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -33,6 +35,7 @@
         android:id="@+id/horario_notificacao"
         android:layout_toRightOf="@id/icone_notificacao"
         android:layout_below="@id/nome_app_notificacao"
-        android:text="22:30 - 22/05/2017"/>
+        android:text="22:30 - 22/05/2017"
+        android:layout_marginLeft="5dp"/>
 
 </RelativeLayout>
