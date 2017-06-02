@@ -21,18 +21,30 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import br.com.firstsoft.historicodenotificacoes.R;
+import br.com.firstsoft.historicodenotificacoes.adapter.PackageRecyclerViewAdapter;
 import br.com.firstsoft.historicodenotificacoes.adapter.RecyclerViewAdapter;
 import br.com.firstsoft.historicodenotificacoes.model.CNotification;
+import br.com.firstsoft.historicodenotificacoes.model.CPackage;
+
+import static br.com.firstsoft.historicodenotificacoes.R.drawable.notification;
 
 public class MainActivity extends AppCompatActivity {
 
     private NotificationReceiver nReceiver;
-    private List<CNotification> notificationList;
-    private RecyclerViewAdapter adapter;
+    private List<CPackage> packageList;
+    private PackageRecyclerViewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,14 +52,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         checkPermission();
 
-        notificationList = new ArrayList<>();
+        packageList = new ArrayList<>();
 
         nReceiver = new NotificationReceiver();
         IntentFilter filter = new IntentFilter();
         filter.addAction("br.com.firstsoft.historicodenotificacoes.NOTIFICATION_LISTENER_SERVICE_EXAMPLE");
         registerReceiver(nReceiver, filter);
 
-        adapter = new RecyclerViewAdapter(notificationList, this);
+        adapter = new PackageRecyclerViewAdapter(packageList, this);
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler);
         recyclerView.setAdapter(adapter);
 
@@ -83,17 +95,6 @@ public class MainActivity extends AppCompatActivity {
         unregisterReceiver(nReceiver);
     }
 
-/*    public void buttonClicked(View v) {
-
-        if (v.getId() == R.id.btnListNotify) {
-            Intent i = new Intent("br.com.firstsoft.historicodenotificacoes.NOTIFICATION_LISTENER_SERVICE_EXAMPLE");
-            i.putExtra("command", "list");
-            sendBroadcast(i);
-            adapter.clear();
-        }
-
-    }*/
-
     class NotificationReceiver extends BroadcastReceiver {
 
         final PackageManager pm = getApplication().getPackageManager();
@@ -113,10 +114,10 @@ public class MainActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
 
             Bundle bundle = intent.getExtras();
-            CNotification temp = (CNotification) bundle.getSerializable("NOTIFICATION");
+            CPackage temp = (CPackage) bundle.getSerializable("PACKAGE");
 
             if (temp != null) {
-                temp.setAppIcon(getApplicationIcon(temp.getPackageName()));
+                temp.setPackageIcon(getApplicationIcon(temp.getPackageName()));
                 adapter.add(temp);
             }
         }

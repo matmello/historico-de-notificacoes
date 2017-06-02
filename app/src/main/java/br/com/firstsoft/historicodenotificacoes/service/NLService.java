@@ -32,6 +32,7 @@ import java.util.Date;
 import java.util.List;
 
 import br.com.firstsoft.historicodenotificacoes.model.CNotification;
+import br.com.firstsoft.historicodenotificacoes.model.CPackage;
 
 import static android.support.v4.app.NotificationCompat.EXTRA_BIG_TEXT;
 import static android.support.v4.app.NotificationCompat.EXTRA_INFO_TEXT;
@@ -120,7 +121,7 @@ public class NLService extends NotificationListenerService {
         );
 
         String key = myRef.push().getKey();
-        myRef.child(user.getUid() + "/" + key).setValue(notification);
+        myRef.child(user.getUid() + "/" + sbn.getPackageName().replaceAll("\\.", "_") + "/" + key).setValue(notification);
     }
 
     @Override
@@ -145,26 +146,31 @@ public class NLService extends NotificationListenerService {
     class NLServiceReceiver extends BroadcastReceiver {
 
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(final Context context, Intent intent) {
             if (intent != null && intent.getStringExtra("command") != null && intent.getStringExtra("command").equals("list")) {
-               myRef.child(user.getUid()).orderByChild("data").addListenerForSingleValueEvent(new ValueEventListener() {
-                   @Override
-                   public void onDataChange(DataSnapshot dataSnapshot) {
-                       for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                           CNotification notification = snapshot.getValue(CNotification.class);
-                           Bundle bundle = new Bundle();
-                           bundle.putSerializable("NOTIFICATION", notification);
-                           Intent i2 = new Intent("br.com.firstsoft.historicodenotificacoes.NOTIFICATION_LISTENER_SERVICE_EXAMPLE");
-                           i2.putExtras(bundle);
-                           sendBroadcast(i2);
-                       }
-                   }
+                myRef.child(user.getUid()).orderByChild("data").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            String packageName = snapshot.getKey().replaceAll("_", "\\.");
+                            CPackage cPackage = new CPackage();
+                            cPackage.setPackageName(packageName);
+                            cPackage.setAppName(getApplicationName(packageName));
+                            cPackage.setChildCount(snapshot.getChildrenCount());
 
-                   @Override
-                   public void onCancelled(DatabaseError databaseError) {
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("PACKAGE", cPackage);
+                            Intent i2 = new Intent("br.com.firstsoft.historicodenotificacoes.NOTIFICATION_LISTENER_SERVICE_EXAMPLE");
+                            i2.putExtras(bundle);
+                            sendBroadcast(i2);
+                        }
+                    }
 
-                   }
-               });
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
             }
         }
     }

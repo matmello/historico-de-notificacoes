@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
+
+    <ImageView
+        android:id="@+id/package_app_icon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:src="@drawable/common_google_signin_btn_icon_dark_normal"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="5dp"
+        android:layout_toRightOf="@id/package_app_icon"
+        android:text="Whatsapp"
+        android:id="@+id/package_app_name"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/package_children_count"
+        android:paddingLeft="5dp"
+        android:layout_toRightOf="@id/package_app_icon"
+        android:layout_below="@id/package_app_name"
+        android:text="Quantidade: 100"/>
+
+</RelativeLayout>
