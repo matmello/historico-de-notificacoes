@@ -21,13 +21,6 @@ public class PackageRecyclerViewAdapter extends RecyclerView.Adapter {
 
     private List<CPackage> packageList;
     private Context context;
-    private final View.OnClickListener mClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Toast.makeText(context, "Funcionou", Toast.LENGTH_SHORT).show();
-        }
-    };
-
     public PackageRecyclerViewAdapter(List<CPackage> packageList, Context context) {
         this.packageList = packageList;
         this.context = context;
@@ -37,7 +30,6 @@ public class PackageRecyclerViewAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_pacote, parent, false);
-        view.setOnClickListener(mClickListener);
         PackageViewHolder viewHolder = new PackageViewHolder(view, this.context);
         return viewHolder;
     }
