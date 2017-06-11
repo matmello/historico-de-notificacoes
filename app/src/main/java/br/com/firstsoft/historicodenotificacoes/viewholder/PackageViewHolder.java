@@ -30,6 +30,7 @@ public class PackageViewHolder extends RecyclerView.ViewHolder implements View.O
         appName.setOnClickListener(this);
         appIcon.setOnClickListener(this);
         notificationNumber.setOnClickListener(this);
+        itemView.setOnClickListener(this);
     }
 
     @Override
